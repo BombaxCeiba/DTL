@@ -111,5 +111,32 @@ public:
     }
 };
 
+template <typename T>
+class ReversionWrapper
+{
+public:
+    T& raw_data;
+};
+
+template <typename T>
+auto begin(ReversionWrapper<T> rw) noexcept(noexcept(rw.raw_data.rbegin()))
+    -> decltype(rw.raw_data.rbegin())
+{
+    return rw.raw_data.rbegin();
+}
+
+template <typename T>
+auto end(ReversionWrapper<T> rw) noexcept(noexcept(rw.raw_data.rend()))
+    -> decltype(rw.raw_data.rend())
+{
+    return rw.raw_data.rend();
+}
+
+template <typename T>
+ReversionWrapper<T> reverse(T&& raw_data)
+{
+    return {raw_data};
+}
+
 DTL_NAMESPACE_END
 #endif
